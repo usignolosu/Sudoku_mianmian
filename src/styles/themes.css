@@ -1,0 +1,426 @@
+/* 主题系统样式 */
+
+/* 浅色主题（默认） */
+:root,
+[data-theme="light"] {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f5;
+  --bg-tertiary: #e8e8e8;
+  --bg-card: #ffffff;
+  --bg-hover: #f0f0f0;
+  --bg-active: #e0e0e0;
+
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --text-inverse: #ffffff;
+
+  --border-primary: #dddddd;
+  --border-secondary: #eeeeee;
+  --border-focus: #4a90d9;
+
+  --accent-primary: #4a90d9;
+  --accent-secondary: #6ba3e0;
+  --accent-light: #e8f4fd;
+
+  --error-color: #ff4444;
+  --success-color: #44aa44;
+  --warning-color: #ffaa00;
+
+  --fixed-number: #333333;
+  --user-number: #4a90d9;
+  --note-number: #999999;
+
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.12);
+  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.16);
+
+  --radius-small: 4px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+  --radius-round: 50%;
+
+  /* 别名变量 - 兼容旧组件 */
+  --border-color: #dddddd;
+  --primary-color: #4a90d9;
+  --hover-bg: #f0f0f0;
+  --highlight-bg: #e8f4fd;
+}
+
+/* 深色主题 */
+[data-theme="dark"] {
+  --bg-primary: #1a1a1a;
+  --bg-secondary: #2a2a2a;
+  --bg-tertiary: #3a3a3a;
+  --bg-card: #2a2a2a;
+  --bg-hover: #3a3a3a;
+  --bg-active: #4a4a4a;
+
+  --text-primary: #ffffff;
+  --text-secondary: #cccccc;
+  --text-tertiary: #888888;
+  --text-inverse: #1a1a1a;
+
+  --border-primary: #444444;
+  --border-secondary: #333333;
+  --border-focus: #6ba3e0;
+
+  --accent-primary: #6ba3e0;
+  --accent-secondary: #4a90d9;
+  --accent-light: #2a4a6a;
+
+  --error-color: #ff6666;
+  --success-color: #66bb66;
+  --warning-color: #ffbb33;
+
+  --fixed-number: #ffffff;
+  --user-number: #6ba3e0;
+  --note-number: #888888;
+
+  --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.24);
+  --shadow-medium: 0 4px 16px rgba(0, 0, 0, 0.32);
+  --shadow-heavy: 0 8px 32px rgba(0, 0, 0, 0.48);
+
+  /* 别名变量 - 兼容旧组件 */
+  --border-color: #444444;
+  --primary-color: #6ba3e0;
+  --hover-bg: #3a3a3a;
+  --highlight-bg: #2a4a6a;
+}
+
+/* 马卡龙粉色主题 */
+[data-theme="macaron-pink"] {
+  --bg-primary: #fff5f8;
+  --bg-secondary: #ffe8ee;
+  --bg-tertiary: #ffdce6;
+  --bg-card: #ffffff;
+  --bg-hover: #ffe8ee;
+  --bg-active: #ffdce6;
+
+  --text-primary: #444444;
+  --text-secondary: #777777;
+  --text-tertiary: #aaaaaa;
+  --text-inverse: #ffffff;
+
+  --border-primary: #ffc0cb;
+  --border-secondary: #ffd0d8;
+  --border-focus: #ff69b4;
+
+  --accent-primary: #ff69b4;
+  --accent-secondary: #ff85c1;
+  --accent-light: #fff0f5;
+
+  --error-color: #ff6b6b;
+  --success-color: #88cc88;
+  --warning-color: #ffcc66;
+
+  --fixed-number: #ff69b4;
+  --user-number: #ff85c1;
+  --note-number: #aaaaaa;
+
+  /* 别名变量 - 兼容旧组件 */
+  --border-color: #ffc0cb;
+  --primary-color: #ff69b4;
+  --hover-bg: #ffe8ee;
+  --highlight-bg: #fff0f5;
+}
+
+/* 马卡龙蓝色主题 */
+[data-theme="macaron-blue"] {
+  --bg-primary: #f0f8ff;
+  --bg-secondary: #e0f0ff;
+  --bg-tertiary: #d0e8ff;
+  --bg-card: #ffffff;
+  --bg-hover: #e0f0ff;
+  --bg-active: #d0e8ff;
+
+  --text-primary: #444444;
+  --text-secondary: #777777;
+  --text-tertiary: #aaaaaa;
+  --text-inverse: #ffffff;
+
+  --border-primary: #a0d0ff;
+  --border-secondary: #b0e0ff;
+  --border-focus: #87ceeb;
+
+  --accent-primary: #87ceeb;
+  --accent-secondary: #a0d8f0;
+  --accent-light: #f0f8ff;
+
+  --error-color: #ff6b6b;
+  --success-color: #88cc88;
+  --warning-color: #ffcc66;
+
+  --fixed-number: #5a9fd4;
+  --user-number: #87ceeb;
+  --note-number: #aaaaaa;
+
+  /* 别名变量 - 兼容旧组件 */
+  --border-color: #a0d0ff;
+  --primary-color: #87ceeb;
+  --hover-bg: #e0f0ff;
+  --highlight-bg: #f0f8ff;
+}
+
+/* 马卡龙绿色主题 */
+[data-theme="macaron-green"] {
+  --bg-primary: #f0fff0;
+  --bg-secondary: #e0f8e0;
+  --bg-tertiary: #d0f0d0;
+  --bg-card: #ffffff;
+  --bg-hover: #e0f8e0;
+  --bg-active: #d0f0d0;
+
+  --text-primary: #444444;
+  --text-secondary: #777777;
+  --text-tertiary: #aaaaaa;
+  --text-inverse: #ffffff;
+
+  --border-primary: #90d090;
+  --border-secondary: #a0e0a0;
+  --border-focus: #66cdaa;
+
+  --accent-primary: #66cdaa;
+  --accent-secondary: #88d8b8;
+  --accent-light: #f0fff8;
+
+  --error-color: #ff6b6b;
+  --success-color: #88cc88;
+  --warning-color: #ffcc66;
+
+  --fixed-number: #5a9a7a;
+  --user-number: #66cdaa;
+  --note-number: #aaaaaa;
+
+  /* 别名变量 - 兼容旧组件 */
+  --border-color: #90d090;
+  --primary-color: #66cdaa;
+  --hover-bg: #e0f8e0;
+  --highlight-bg: #f0fff8;
+}
+
+/* 马卡龙紫色主题 */
+[data-theme="macaron-purple"] {
+  --bg-primary: #f8f0ff;
+  --bg-secondary: #f0e0ff;
+  --bg-tertiary: #e8d0f8;
+  --bg-card: #ffffff;
+  --bg-hover: #f0e0ff;
+  --bg-active: #e8d0f8;
+
+  --text-primary: #444444;
+  --text-secondary: #777777;
+  --text-tertiary: #aaaaaa;
+  --text-inverse: #ffffff;
+
+  --border-primary: #d0a0e8;
+  --border-secondary: #e0b0f0;
+  --border-focus: #b19cd9;
+
+  --accent-primary: #b19cd9;
+  --accent-secondary: #c8a8e8;
+  --accent-light: #f8f0ff;
+
+  --error-color: #ff6b6b;
+  --success-color: #88cc88;
+  --warning-color: #ffcc66;
+
+  --fixed-number: #8a7ab8;
+  --user-number: #b19cd9;
+  --note-number: #aaaaaa;
+
+  /* 别名变量 - 兼容旧组件 */
+  --border-color: #d0a0e8;
+  --primary-color: #b19cd9;
+  --hover-bg: #f0e0ff;
+  --highlight-bg: #f8f0ff;
+}
+
+/* 基础样式 */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* 按钮基础样式 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius-medium);
+  background-color: var(--accent-primary);
+  color: var(--text-inverse);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.btn:hover {
+  background-color: var(--accent-secondary);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-hover);
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border-primary);
+  color: var(--text-primary);
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-hover);
+}
+
+.btn-small {
+  padding: 4px 12px;
+  font-size: 12px;
+}
+
+.btn-large {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius-round);
+}
+
+/* 卡片样式 */
+.card {
+  background-color: var(--bg-card);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-light);
+  padding: 16px;
+  transition: box-shadow 0.3s;
+}
+
+.card:hover {
+  box-shadow: var(--shadow-medium);
+}
+
+/* 输入框样式 */
+.input {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-medium);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--border-focus);
+}
+
+/* 标题样式 */
+.title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .btn {
+    padding: 6px 14px;
+  }
+
+  .btn-large {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn {
+    padding: 4px 12px;
+    font-size: 12px;
+  }
+
+  .card {
+    padding: 8px;
+    border-radius: var(--radius-medium);
+  }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease-out;
+}
+
+.pulse {
+  animation: pulse 0.5s ease-out;
+}
+
+.shake {
+  animation: shake 0.3s ease-out;
+}
