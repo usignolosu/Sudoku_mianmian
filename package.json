@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist -r git@gitee.com:usignolosu/sudoku-mianmian.git"
   },
   "dependencies": {
     "@vueuse/core": "^14.3.0",
@@ -20,6 +21,7 @@
     "@types/uuid": "^10.0.0",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
+    "gh-pages": "^6.3.0",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
     "vue-tsc": "^3.3.5"
