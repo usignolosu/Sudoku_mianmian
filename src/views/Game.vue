@@ -177,20 +177,12 @@ const canRedo = computed(() => {
 
 let timerInterval: number | null = null
 
-onMounted(() => {
-  // 解析 query 参数
-  const lvl = route.query.level
-  if (lvl) {
-    levelNum.value = parseInt(lvl as string)
-  }
-  isRandom.value = !!route.query.random
-  isDaily.value = !!route.query.daily
-  currentLevel.value = level.value
-
-  // 使用 setTimeout 让 UI 先渲染加载状态
+function reinit() {
+  isLoading.value = true
+  stopTimer()
+  newMedals.value = []
   setTimeout(() => {
     initCurrentGame()
-    // 如果是每日挑战，修改 puzzleId
     if (isDaily.value && levelNum.value && gameStore.gameState) {
       const today = new Date()
       const dateStr = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`
@@ -199,7 +191,25 @@ onMounted(() => {
     isLoading.value = false
     startTimer()
   }, 50)
-})
+}
+
+function initFromRoute() {
+  const lvl = route.query.level
+  levelNum.value = lvl ? parseInt(lvl as string) : null
+  isRandom.value = !!route.query.random
+  isDaily.value = !!route.query.daily
+  currentLevel.value = level.value
+  reinit()
+}
+
+onMounted(initFromRoute)
+
+// 修复：同 name+同 path 的 query 变化默认不会重挂载组件，
+// 用 watch 显式重新初始化，保证「下一关」、切难度等行为能刷新棋盘。
+watch(
+  () => [route.query.level, route.query.random, route.query.daily, route.params.size, route.params.level],
+  () => initFromRoute()
+)
 
 function initCurrentGame() {
   if (levelNum.value) {
@@ -217,16 +227,12 @@ function initCurrentGame() {
 
 function changeDifficulty(newLevel: DifficultyLevel) {
   if (newLevel === currentLevel.value) return
-  currentLevel.value = newLevel
-  isLoading.value = true
-  stopTimer()
-  newMedals.value = []
-  
-  setTimeout(() => {
-    initCurrentGame()
-    isLoading.value = false
-    startTimer()
-  }, 50)
+  // 同步 URL 后由 watch 触发 reinit，保证关卡号 / 模式不会丢
+  const query: Record<string, string> = {}
+  if (levelNum.value !== null) query.level = String(levelNum.value)
+  if (isRandom.value) query.random = '1'
+  if (isDaily.value) query.daily = '1'
+  router.replace({ path: `/game/${size.value}/${newLevel}`, query })
 }
 
 onUnmounted(() => {
@@ -297,20 +303,13 @@ function goBack() {
 }
 
 function handlePlayAgain() {
+  // 关卡模式：跳到下一关，由 watch 触发 reinit
   if (levelNum.value !== null && !isDaily.value && !isRandom.value && hasNextLevel.value) {
     router.push(`/game/${size.value}/${currentLevel.value}?level=${levelNum.value + 1}`)
     return
   }
-  
-  isLoading.value = true
-  stopTimer()
-  newMedals.value = []
-  
-  setTimeout(() => {
-    initCurrentGame()
-    isLoading.value = false
-    startTimer()
-  }, 50)
+  // 第 99 关 / 每日 / 随机 / 普通：原地重 init
+  reinit()
 }
 
 function saveGameRecord() {
