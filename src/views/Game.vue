@@ -116,7 +116,7 @@
         </div>
         <div class="complete-actions">
           <button class="btn btn-secondary" @click="goBack">返回首页</button>
-          <button class="btn" @click="playAgain">再来一局</button>
+          <button class="btn" @click="handlePlayAgain">{{ playAgainText }}</button>
         </div>
       </div>
     </div>
@@ -147,6 +147,17 @@ const currentLevel = ref<DifficultyLevel>('hard')
 const levelNum = ref<number | null>(null)
 const isRandom = ref(false)
 const isDaily = ref(false)
+
+const hasNextLevel = computed(() => {
+  return levelNum.value !== null && levelNum.value < 99
+})
+
+const playAgainText = computed(() => {
+  if (isDaily.value || isRandom.value) return '再来一局'
+  if (levelNum.value !== null && hasNextLevel.value) return '下一关'
+  if (levelNum.value !== null && !hasNextLevel.value) return '重新挑战'
+  return '再来一局'
+})
 
 const difficultyLabel = computed(() => {
   const sizeLabel = size.value === 3 ? '简单版' : size.value === 9 ? '标准版' : '大师版'
@@ -285,7 +296,12 @@ function goBack() {
   router.push('/home')
 }
 
-function playAgain() {
+function handlePlayAgain() {
+  if (levelNum.value !== null && !isDaily.value && !isRandom.value && hasNextLevel.value) {
+    router.push(`/game/${size.value}/${currentLevel.value}?level=${levelNum.value + 1}`)
+    return
+  }
+  
   isLoading.value = true
   stopTimer()
   newMedals.value = []
