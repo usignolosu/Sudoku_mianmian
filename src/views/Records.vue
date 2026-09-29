@@ -182,10 +182,12 @@ function goToSettings() {
 }
 
 .header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
   background-color: var(--bg-card);
   box-shadow: var(--shadow-light);
 }
@@ -196,6 +198,7 @@ function goToSettings() {
 
 .records-content {
   padding: 16px 20px;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
 }
 
 .stats-section {
@@ -331,14 +334,16 @@ function goToSettings() {
 }
 
 .bottom-nav {
+  flex-shrink: 0;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   background-color: var(--bg-card);
-  box-shadow: var(--shadow-medium);
-  padding: 8px 0;
+  box-shadow: var(--shadow-nav, 0 -2px 14px rgba(233, 69, 96, 0.12));
+  padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
 }
 
 .nav-item {

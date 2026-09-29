@@ -2,12 +2,30 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 
+/**
+ * 开屏页只给「首次访问」显示。
+ *
+ * 原因:Splash.vue 是品牌固定配色(粉红 + 实拍底图),不跟随主题。
+ * 如果每次冷启动都展示,白色/暗色主题用户会先看到一帧粉+黑的硬闪。
+ * 看过一次之后直接进首页。
+ */
+const SPLASH_SEEN_KEY = 'sudoku_splash_seen'
+
+function hasSeenSplash(): boolean {
+  try {
+    return localStorage.getItem(SPLASH_SEEN_KEY) === '1'
+  } catch {
+    // 隐私模式下 localStorage 不可用,退化为每次都显示
+    return false
+  }
+}
+
 const routes = [
   {
     path: '/',
     name: 'Splash',
     component: () => import('../views/Splash.vue'),
-    meta: { title: '表姐的数独' }
+    meta: { title: '表姐的数独', splash: true }
   },
   {
     path: '/home',
@@ -66,9 +84,15 @@ const router = createRouter({
   routes
 })
 
-// 设置页面标题
+// 设置页面标题 + 开屏页首次访问门槛
 router.beforeEach((to, _from, next) => {
   document.title = `${to.meta.title || '表姐的数独'} - 表姐的数独`
+
+  // 已看过开屏的用户,再访问 / 直接放行到首页
+  if (to.meta.splash && hasSeenSplash()) {
+    return next({ path: '/home', replace: true })
+  }
+
   next()
 })
 

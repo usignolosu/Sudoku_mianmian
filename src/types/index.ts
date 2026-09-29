@@ -59,7 +59,27 @@ export interface GameRecord {
   completed: boolean
   medals: string[]              // 本局获得的勋章
   puzzleId: string
+  // ── 情境字段(special 类勋章判定用,可选以兼容旧存档)──
+  /** 完成时刻的小时 (0-23) */
+  hourOfDay?: number
+  /** 完成时刻是否为周末 */
+  isWeekend?: boolean
+  /** 本局是否使用过提示 */
+  usedHint?: boolean
+  /** 本局是否「出错后仍完成」(errors>0 且完成) */
+  recoveredFromError?: boolean
 }
+
+// 特殊类勋章的情境类型
+export type SpecialContext =
+  | 'night'        // 深夜玩家: 凌晨 0-4 点
+  | 'early'        // 早鸟玩家: 早晨 6-8 点
+  | 'weekend'      // 周末战士: 周末完成
+  | 'hint'         // 提示达人: 使用提示后完成
+  | 'comeback'     // 逆袭之王: 出错后完成
+  | 'speedrun'     // 极速过关: 远快于该难度常规耗时
+  | 'marathon'     // 持久战: 耗时较长
+  | 'flawless'     // 一气呵成: 0 错误完成
 
 // 用户数据
 export interface UserData {
@@ -73,6 +93,7 @@ export interface UserData {
   dailyStreak: number           // 每日挑战连续天数
   maxDailyStreak: number        // 最大每日挑战连胜天数
   medals: string[]              // 已解锁勋章
+  medalUnlockedAt?: Record<string, string>  // 勋章解锁时间 (ISO string)
   records: GameRecord[]         // 游戏记录
   settings: Settings
 }
@@ -85,7 +106,7 @@ export interface Settings {
 }
 
 // 主题类型
-export type ThemeType = 'light' | 'dark' | 'macaron-pink' | 'macaron-blue' | 'macaron-green' | 'macaron-purple'
+export type ThemeType = 'light' | 'sakura' | 'dark' | 'macaron-pink' | 'macaron-blue' | 'macaron-green' | 'macaron-purple'
 
 // 导出 ThemeType 别名以兼容导入
 export type { ThemeType as ThemeTypeAlias }
@@ -114,6 +135,10 @@ export interface MedalCondition {
   category?: MedalCategory
   percent?: number
   hidden?: boolean
+  /** type='special' 时指明情境类型 */
+  context?: SpecialContext
+  /** type='special' 且 context='speedrun'/'marathon' 时的秒数阈值 */
+  threshold?: number
 }
 
 export interface Medal {
@@ -128,7 +153,19 @@ export interface Medal {
 }
 
 // 勋章分类
-export type MedalCategory = 'level' | 'ultimate'
+// level / ultimate 为既有关卡体系;其余为需求 §5.2 的九大类
+export type MedalCategory =
+  | 'level'         // 关卡勋章（99 个）
+  | 'ultimate'      // 终极勋章（数独之神）
+  | 'starter'       // 入门类
+  | 'speed'         // 速度类
+  | 'streak'        // 连胜类
+  | 'perfect'       // 完美类
+  | 'cumulative'    // 累计类
+  | 'attendance'    // 全勤类
+  | 'daily'         // 每日挑战类
+  | 'collection'    // 收集类
+  | 'special'       // 特殊类
 
 // 题目数据
 export interface Puzzle {

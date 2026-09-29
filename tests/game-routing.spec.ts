@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
+import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { mount, enableAutoUnmount, flushPromises } from '@vue/test-utils'
 import { createRouter, createMemoryHistory } from 'vue-router'
 import { createPinia, setActivePinia } from 'pinia'
 import Game from '@/views/Game.vue'
@@ -16,6 +16,9 @@ import { useGameStore } from '@/stores/game'
  * 修复: 抽出 initFromRoute()，并用 watch(() => [route.query.*, route.params.*])
  *       在路由变化时重新执行。
  */
+
+// 自动卸载: 防止遗留组件的 watch 继续触发副作用,污染共享 store
+enableAutoUnmount(afterEach)
 
 const routes = [
   { path: '/', name: 'Splash', component: { template: '<div/>' } },

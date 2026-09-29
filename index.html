@@ -1,10 +1,34 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sudoku-game</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>表姐的数独</title>
+
+    <!--
+      主题引导:在 CSS/JS 加载前就把 data-theme 写上 <html>。
+      否则暗色/樱花粉用户每次冷启动都会先看到一帧纯白再跳色(FOUC)。
+      内联脚本必须放在 <head> 且同步执行,不能用 defer/module。
+    -->
+    <script>
+      (function () {
+        try {
+          var VALID = ['light', 'sakura', 'dark', 'macaron-pink',
+            'macaron-blue', 'macaron-green', 'macaron-purple'];
+          var raw = localStorage.getItem('sudoku_user_data');
+          if (raw) {
+            var t = (JSON.parse(raw).settings || {}).theme;
+            if (VALID.indexOf(t) > -1) {
+              document.documentElement.setAttribute('data-theme', t);
+            }
+          }
+        } catch (e) {
+          /* 解析失败就用默认 light */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>

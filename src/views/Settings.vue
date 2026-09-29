@@ -77,8 +77,11 @@
         <div class="card about-card">
           <div class="about-logo">🧩</div>
           <h3>表姐的数独</h3>
-          <p class="version">版本 1.0.0</p>
+          <p class="version">版本 1.1.0</p>
           <p class="desc">一款可爱的数独游戏，包含多种难度和丰富的勋章系统</p>
+          <button class="btn btn-secondary btn-small replay-btn" @click="replaySplash">
+            🎬 重看开屏
+          </button>
         </div>
       </section>
     </div>
@@ -119,12 +122,13 @@ const showClearConfirm = ref(false)
 const fileInput = ref<HTMLInputElement | null>(null)
 
 const themes: { id: ThemeType; name: string; color: string }[] = [
-  { id: 'light', name: '浅色', color: '#ffffff' },
-  { id: 'dark', name: '深色', color: '#1a1a1a' },
-  { id: 'macaron-pink', name: '马卡龙粉', color: '#fff5f8' },
-  { id: 'macaron-blue', name: '马卡龙蓝', color: '#f0f8ff' },
-  { id: 'macaron-green', name: '马卡龙绿', color: '#f0fff0' },
-  { id: 'macaron-purple', name: '马卡龙紫', color: '#f8f0ff' }
+  { id: 'light', name: '纯净白', color: '#ffffff' },
+  { id: 'sakura', name: '樱花粉', color: '#e94560' },
+  { id: 'dark', name: '暗夜', color: '#1a1a1a' },
+  { id: 'macaron-pink', name: '奶粉', color: '#ffd6e0' },
+  { id: 'macaron-blue', name: '天空蓝', color: '#87ceeb' },
+  { id: 'macaron-green', name: '抹茶绿', color: '#a8e6a3' },
+  { id: 'macaron-purple', name: '葡萄紫', color: '#c9a0dc' }
 ]
 
 function goBack() {
@@ -179,6 +183,16 @@ function clearAllData() {
   showClearConfirm.value = false
   alert('数据已清除。')
 }
+
+/** 重看开屏页(清掉「已看过」标记,下次访问 / 会重新显示) */
+function replaySplash() {
+  try {
+    localStorage.removeItem('sudoku_splash_seen')
+  } catch {
+    /* 隐私模式下不可写,忽略 */
+  }
+  router.push('/')
+}
 </script>
 
 <style scoped>
@@ -187,10 +201,12 @@ function clearAllData() {
 }
 
 .header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
   background-color: var(--bg-card);
   box-shadow: var(--shadow-light);
 }
@@ -234,7 +250,9 @@ function clearAllData() {
 }
 
 .toggle-btn {
-  padding: 6px 16px;
+  /* 纵向 padding 保证总高 >= 44px */
+  padding: 12px 20px;
+  min-height: 44px;
   border: none;
   border-radius: var(--radius-medium);
   background-color: var(--bg-tertiary);
@@ -284,6 +302,10 @@ function clearAllData() {
 
 .theme-name {
   font-size: 12px;
+}
+
+.replay-btn {
+  margin-top: 10px;
 }
 
 .about-card {

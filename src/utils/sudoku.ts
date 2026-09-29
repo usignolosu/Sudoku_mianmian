@@ -299,25 +299,31 @@ export class SudokuGenerator {
   }
 
   /**
+   * 获取难度对应的移除比例
+   * Bug 修复: 加 default 分支。此前非法 level 会让 removeRatio=undefined,
+   * 导致 cellsToRemove=NaN,removed >= NaN 恒为 false,整盘 81 格被清空。
+   */
+  private getRemoveRatio(level: DifficultyLevel): number {
+    switch (level) {
+      case 'easy':
+        return 0.3   // 移除 30%
+      case 'medium':
+        return 0.5   // 移除 50%
+      case 'hard':
+        return 0.7   // 移除 70%
+      default:
+        return 0.5   // 非法难度降级为中级,绝不产生 NaN
+    }
+  }
+
+  /**
    * 根据难度生成题目
    */
   generatePuzzle(level: DifficultyLevel): Puzzle {
     const solution = this.generateSolution()
     const puzzle = solution.map(row => [...row])
 
-    // 根据难度决定移除比例
-    let removeRatio: number
-    switch (level) {
-      case 'easy':
-        removeRatio = 0.3  // 移除 30%
-        break
-      case 'medium':
-        removeRatio = 0.5  // 移除 50%
-        break
-      case 'hard':
-        removeRatio = 0.7  // 移除 70%
-        break
-    }
+    const removeRatio = this.getRemoveRatio(level)
 
     const totalCells = this.size * this.size
     const cellsToRemove = Math.floor(totalCells * removeRatio)
@@ -354,18 +360,7 @@ export class SudokuGenerator {
     const solution = this.generateSolution()
     const puzzle = solution.map(row => [...row])
 
-    let removeRatio: number
-    switch (level) {
-      case 'easy':
-        removeRatio = 0.3
-        break
-      case 'medium':
-        removeRatio = 0.5
-        break
-      case 'hard':
-        removeRatio = 0.7
-        break
-    }
+    const removeRatio = this.getRemoveRatio(level)
 
     const totalCells = this.size * this.size
     const cellsToRemove = Math.floor(totalCells * removeRatio)

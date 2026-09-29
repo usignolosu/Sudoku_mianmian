@@ -23,7 +23,7 @@
         </div>
         <div class="stat-item">
           <span class="stat-label">勋章数量</span>
-          <span class="stat-value">{{ userStore.unlockedMedalsCount }}/1000</span>
+          <span class="stat-value">{{ userStore.unlockedMedalsCount }}/{{ TOTAL_MEDAL_COUNT }}</span>
         </div>
       </div>
     </section>
@@ -131,6 +131,7 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
+import { TOTAL_MEDAL_COUNT } from '../data/medals'
 import type { GridSize } from '../types'
 
 const router = useRouter()
@@ -273,6 +274,7 @@ function goToSettings() {
 
 .difficulty-section {
   padding: 16px 20px;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
 }
 
 .section-title {
@@ -283,6 +285,7 @@ function goToSettings() {
 
 .difficulty-card {
   margin-bottom: 16px;
+  cursor: pointer;
   transition: transform 0.2s;
 }
 
@@ -290,8 +293,19 @@ function goToSettings() {
   transform: translateY(-2px);
 }
 
+/* 精选卡(9×9 标准版)用粉红渐变突出 */
 .difficulty-card.featured {
-  border: 2px solid var(--accent-primary);
+  border: 2px solid var(--accent-primary, #e94560);
+  background: var(--accent-gradient, linear-gradient(135deg, #ff6b8a, #e94560));
+  box-shadow: var(--shadow-glow, 0 4px 16px rgba(233, 69, 96, 0.35));
+}
+
+/* 精选卡内文字反白 */
+.difficulty-card.featured .difficulty-title,
+.difficulty-card.featured .difficulty-desc,
+.difficulty-card.featured .difficulty-stats span,
+.difficulty-card.featured .difficulty-arrow {
+  color: #fff;
 }
 
 .difficulty-header {
@@ -341,24 +355,17 @@ function goToSettings() {
   color: var(--accent-primary);
 }
 
-.difficulty-card {
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.difficulty-card:hover {
-  transform: translateY(-2px);
-}
-
 .bottom-nav {
+  flex-shrink: 0;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   background-color: var(--bg-card);
-  box-shadow: var(--shadow-medium);
-  padding: 8px 0;
+  box-shadow: var(--shadow-nav, 0 -2px 14px rgba(233, 69, 96, 0.12));
+  padding: 6px 0 calc(6px + env(safe-area-inset-bottom, 0px));
+  z-index: 50;
 }
 
 .nav-item {

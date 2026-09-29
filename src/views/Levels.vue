@@ -72,7 +72,13 @@ const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
 
-const size = Number(route.params.size) as GridSize
+// Bug 修复: 非法 size 参数降级为 9 (同类缺陷 TC-B03-02)
+// 此前 /levels/abc 会让 size=NaN,导致所有关卡完成判定恒为 false
+const VALID_SIZES: GridSize[] = [3, 9, 27]
+const parsedSize = Number(route.params.size)
+const size: GridSize = VALID_SIZES.includes(parsedSize as GridSize)
+  ? (parsedSize as GridSize)
+  : 9
 const currentLevel = ref<DifficultyLevel>('hard')
 
 const modeLabel = computed(() => {
@@ -93,12 +99,15 @@ const completedCount = computed(() => {
 })
 
 // 检查某关是否完成
+// Bug 修复 #6: puzzleId 兼容 `random-` 前缀 (Random.vue 走的就是这个)
+// 例如 random-9-hard-level-7 也算第 7 关完成
 function isCompleted(levelNum: number): boolean {
+  const suffix = `${size}-${currentLevel.value}-level-${levelNum}`
   return userStore.userData.records.some(r => {
-    return r.completed && 
-           r.difficulty.size === size && 
+    return r.completed &&
+           r.difficulty.size === size &&
            r.difficulty.level === currentLevel.value &&
-           r.puzzleId === `${size}-${currentLevel.value}-level-${levelNum}`
+           (r.puzzleId === suffix || r.puzzleId.endsWith(`-${suffix}`))
   })
 }
 
@@ -133,10 +142,12 @@ function goBack() {
 }
 
 .header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
   background-color: var(--bg-card);
   box-shadow: var(--shadow-light);
 }
@@ -193,9 +204,14 @@ function goBack() {
   transition: width 0.3s;
 }
 
+/*
+  关卡网格:窄屏用 4 列。
+  5 列时 375px 屏幕每格只有 35px,低于 44px 触摸目标下限,
+  99 关连排时很容易点错关。
+*/
 .levels-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 10px;
 }
 
@@ -254,7 +270,6 @@ function goBack() {
 
 @media (max-width: 480px) {
   .levels-grid {
-    grid-template-columns: repeat(5, 1fr);
     gap: 8px;
   }
 

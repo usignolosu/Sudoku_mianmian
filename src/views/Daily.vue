@@ -169,10 +169,12 @@ function goBack() {
 }
 
 .header {
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top, 0px));
   background-color: var(--bg-card);
   box-shadow: var(--shadow-light);
 }
@@ -208,7 +210,7 @@ function goBack() {
 
 .today-streak {
   font-size: 14px;
-  color: var(--primary-color);
+  color: var(--accent-ink, var(--primary-color));
 }
 
 .today-info {
@@ -224,19 +226,20 @@ function goBack() {
   font-weight: 500;
 }
 
+/* 难度徽章:跟随主题语义色,避免在暗色主题下变成亮色贴纸 */
 .difficulty-badge.easy {
-  background-color: #dcfce7;
-  color: #16a34a;
+  background-color: var(--success-color-light);
+  color: var(--success-color);
 }
 
 .difficulty-badge.medium {
-  background-color: #fef3c7;
-  color: #d97706;
+  background-color: var(--warning-color-light);
+  color: var(--warning-color);
 }
 
 .difficulty-badge.hard {
-  background-color: #fee2e2;
-  color: #dc2626;
+  background-color: var(--error-color-light);
+  color: var(--error-color);
 }
 
 .today-status {
@@ -292,7 +295,7 @@ function goBack() {
 .history-stat .value {
   font-size: 20px;
   font-weight: 600;
-  color: var(--primary-color);
+  color: var(--accent-ink, var(--primary-color));
 }
 
 .info-section {
@@ -326,6 +329,6 @@ function goBack() {
   content: '•';
   position: absolute;
   left: 0;
-  color: var(--primary-color);
+  color: var(--accent-ink, var(--primary-color));
 }
 </style>

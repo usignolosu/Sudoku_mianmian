@@ -37,7 +37,19 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+/**
+ * 标记开屏已看过。
+ * 只在用户主动点「开始游戏」时写,而不是组件挂载时就写 ——
+ * 否则看到一半刷新页面,就再也见不到开屏了。
+ */
+const SPLASH_SEEN_KEY = 'sudoku_splash_seen'
+
 function startGame() {
+  try {
+    localStorage.setItem(SPLASH_SEEN_KEY, '1')
+  } catch {
+    /* 隐私模式下不可写,忽略即可(下次仍会显示开屏) */
+  }
   router.push('/home')
 }
 </script>
